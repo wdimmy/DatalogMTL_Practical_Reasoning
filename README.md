@@ -11,6 +11,7 @@ This repository contains code, datasets and other related resources of our paper
      * <a href="#itemporal">iTemporal Benchamark</a>
      * <a href="#weather">Weather Benchmark</a>
 * <a href='#experiments'>3. Run experiments </a>
+* <a href='#meteor'>4. Installation and Examples for MeTeoR</a>
 
 
 
@@ -182,9 +183,9 @@ could be downloaded from [here](https://www.engr.scu.edu/~emaurer/gridded_obs/in
 
 <span id="experiments"/>
 
-#### 4. Run experiments
+#### 3. Run experiments
 
-##### 4.1 Experiment 1 (Figure 1 in Our Paper)
+##### 3.1 Experiment 1 (Figure 1 in Our Paper)
 **An Example**, in which the dataset path is: **datasets/fig1/itemporal_data_1 programs/fig1/itemporal_program_1**,
 the program path is: **programs/fig1/itemporal_program_1** and the fact path is: **facts/fig1/itemporal_data_1.txt**.
  
@@ -194,7 +195,7 @@ the program path is: **programs/fig1/itemporal_program_1** and the fact path is:
 ```
 --------------------------------------------------------------------------------
 
-##### 4.2 Experiment 2 (Figure 2 in Our Paper)
+##### 3.2 Experiment 2 (Figure 2 in Our Paper)
 **An Example**, in which the dataset path is: **datasets/fig2/itemporal_data_20000 programs/fig1/itemporal_program_E**,
 the program path is: **programs/fig1=2/itemporal_program_E** and the fact path is: **facts/fig2/itemporal_E_data_2000.txt**.
  
@@ -205,7 +206,7 @@ the program path is: **programs/fig1=2/itemporal_program_E** and the fact path i
 
 --------------------------------------------------------------------------------
 
-##### 4.3 Experiment 3 (Figure 3 in Our Paper)
+##### 3.3 Experiment 3 (Figure 3 in Our Paper)
 **An Example**. You can change the dataset and the program (see datasets/fig3 and programs/fig3). 
 
 ```shell
@@ -214,7 +215,7 @@ the program path is: **programs/fig1=2/itemporal_program_E** and the fact path i
 
 --------------------------------------------------------------------------------
 
-##### 4.4 Experiment 4 (Figure 4 in Our Paper)
+##### 3.4 Experiment 4 (Figure 4 in Our Paper)
 This is the experiment for the scalability test for materailisation requiring large datasets.
 You need to prepare these datasets according to the instruction mentioned in the **Data Generator** part.
 
@@ -225,7 +226,7 @@ You need to prepare these datasets according to the instruction mentioned in the
 
 --------------------------------------------------------------------------------
 
-##### 4.5 Experiment 5 (Figure 5 in Our Paper)
+##### 3.5 Experiment 5 (Figure 5 in Our Paper)
 **An Example**. You can change the dataset and the program (see datasets/fig5 and programs/fig5). 
 
 ```shell
@@ -236,6 +237,108 @@ The related codes for the query rewriting method are put in **Query_Rewriting** 
 
 --------------------------------------------------------------------------------
 
+
+<span id="meteor"/>
+
+#### 4. Installation and Examples for MeTeoR 
+
+##### 4.1 Installation
+You can install MeTeoR using Python's package manager `pip`.
+
+##### Requirements
+ - Python>=3.7
+ - Numpy>=1.16.0
+ - pandas>=0.24.0
+ - urllib3>=1.24.0
+ - scikit-learn>=0.20.0
+ - networkx
+ - rdflib
+ - outdated>=0.2.0
+
+##### Pip install
+The recommended way to install MeTeoR is using Python's package manager pip:
+```bash
+pip install - U meteor_reasoner
+```
+
+##### From source
+You can also install MeTeoR from source. This is recommended if you want to contribute to MeTeoR.
+```bash
+git clone https://github.com/wdimmy/MeTeoR
+cd MeTeoR
+pip 
+```
+
+
+##### 4.2 Program Syntax
+We define the following notations to represent the six MTL operators:
+* Diamondminus[1,2] or SOMETIME[-2,-1]
+* Boxminus[1,2] or ALWAYS[-2,-1]
+* Diamondplus[1,2] or SOMETIME[1,2]
+* Boxplus[1,2] or ALWAYS[1,2]
+* Since[1,2]
+* Until[1,2]
+
+We use ":-" to separate the head and the body atoms and "," as the separator between different 
+metric atoms in the body. Besides, constants are represented with the combination of different alphabets in which the
+first letter should be **lowercase**; on the contrary, variables are represented with the combination of different alphabets in which the
+first letter should be **uppercase**.
+
+
+As an example, a rule could be written as follows,
+```
+A(X):- B(a), SOMETIME[-1,0]C(X), Diamondminus[1,2]D(X)
+```
+##### 4.2 Dataset Syntax
+We define the following format to represent a fact:
+
+**F(c_1, ..., c_n)@<t1, t2>**, where **<** could be ( or [, and **>** could be ) or ], t1 and t2 are two rational numbers with t1<=t2
+and c_i with i in [1, ..., n] is a string starting with a  **lowercase** letter. 
+
+##### 4.3 An Example
+###### Data parser
+The format of the datasets and the program could be found in the example foler.
+```python
+from meteor_reasoner.utils.loader import load_dataset, load_program
+
+data = ["A(a)@1", "B(a)@[1,2]", "C@(1,2]"]
+program = ["A(X):-Diamondminus[1,2]A(X)", "D(X):- Boxminus[1,2]A(X), B(X)Since[1,2]C"]
+D = load_dataset(data)
+Program = load_program(program)
+
+```
+
+
+###### Materialisation
+```python
+from meteor_reasoner.materialization.materialize import materialize
+from meteor_reasoner.utils.loader import load_dataset, load_program
+from meteor_reasoner.utils.operate_dataset import print_dataset
+data = ["A(a)@1", "B(a)@[1,2]", "C@(1,2]"]
+program = ["A(X):-Diamondminus[1,2]A(X)", "D(X):- Boxminus[1,2]A(X), B(X)Since[1,2]C"]
+D = load_dataset(data)
+Program = load_program(program)
+flag = materialize(D, Program, mode="naive", K=10) # mode could be "naive" or "seminiaive" or "opt" and K is the number of steps of rule application you want to  do
+# using any mode and the same number of step, the following output should be the same
+print_dataset(D)
+````
+
+The above code snippets shows at most 10 rounds of rule applicatioins and the flag represents whether 
+it reaches to the fixed point. The derived facts will be kept in D. 
+
+###### Automata
+```python
+from meteor_reasoner.automata.buichi_automata import *
+from meteor_reasoner.automata.automaton import consistency
+data = ["Alive(adam)@0"]
+program = ["ALWAYS[0,1]Alive(X) :- Alive(X)"]
+D = load_dataset(data)
+Program = load_program(program)
+fact = parse_str_fact("Alive(adam)@[0,+inf)")
+F = Atom(fact[0], fact[1], fact[2])
+flag = consistency(D, program, F)
+print("Consistency:", flag)
+````
 
 #### Contact
 For any questions, please drop an email to Dingmin Wang (wangdimmy@gmail.com). 
