@@ -22,11 +22,11 @@ This repository contains code, datasets and other related resources of our paper
 #### 1. Programs and Datasets </a>
 Apart from the datasets of Figure 4 (due to the size limitation in the github), 
 we put in the **programs** and **datasets** folders all datasets and programs grouped 
-by fig1, fig2, fig3, fig4, fig5, which correspond to figure1, figure2, figure3, figure4, figure5
+by fig1_left, fig1_right, fig2, fig3, fig4, which correspond to figure1(left), figure1(right), figure2, figure3, figure4
 in our paper. Users cna easily find the corresponding datasets and programs used in
 our experiments according to the folder and file name. For example, 10 related datasets and 10 related  
-programs for the experimental results of figure 1 in our paper are 
-put in **datasets/fig1** and **datasets/fig2**. 
+programs for the experimental results of figure 1(left) in our paper are 
+put in **datasets/fig1_left** and **datasets/fig1_right**. 
 
 For large datasets excluded in the github repo, we encourage interested users to generate 
 these datasets themselves according to the generation methods provided in the subsequent section. 
@@ -185,52 +185,52 @@ could be downloaded from [here](https://www.engr.scu.edu/~emaurer/gridded_obs/in
 
 #### 3. Run experiments
 
-##### 3.1 Experiment 1 (Figure 1 in Our Paper)
-**An Example**, in which the dataset path is: **datasets/fig1/itemporal_data_1 programs/fig1/itemporal_program_1**,
-the program path is: **programs/fig1/itemporal_program_1** and the fact path is: **facts/fig1/itemporal_data_1.txt**.
+##### 3.1 Experiment 1 (Figure 1 (left) in Our Paper)
+**An Example**, in which the dataset path is: **datasets/fig1_left/itemporal_data_1 programs/fig1_left/itemporal_program_1**,
+the program path is: **programs/fig1_left/itemporal_program_1** and the fact path is: **facts/fig1_left/itemporal_data_1.txt**.
  
 ```shell
-  bash run.sh datasets/fig1/itemporal_data_1 programs/fig1/itemporal_program_1   facts/fig1/itemporal_data_1.txt
+  bash run.sh datasets/fig1_left/itemporal_data_1 programs/fig1_left/itemporal_program_1   facts/fig1_left/itemporal_data_1.txt
 
 ```
 --------------------------------------------------------------------------------
 
-##### 3.2 Experiment 2 (Figure 2 in Our Paper)
-**An Example**, in which the dataset path is: **datasets/fig2/itemporal_data_20000 programs/fig1/itemporal_program_E**,
-the program path is: **programs/fig1=2/itemporal_program_E** and the fact path is: **facts/fig2/itemporal_E_data_2000.txt**.
+##### 3.2 Experiment 2 (Figure 1 (right) in Our Paper)
+**An Example**, in which the dataset path is: **datasets/fig1_right/itemporal_data_20000 programs/fig1_right/itemporal_program_E**,
+the program path is: **programs/fig1_right/itemporal_program_E** and the fact path is: **facts/fig1_right/itemporal_E_data_2000.txt**.
  
  
 ```shell
-  bash run.sh datasets/fig2/itemporal_E_data_2000 programs/fig2/itemporal_program_E  facts/fig2/itemporal_E_data_2000.txt
+  bash run.sh datasets/fig1_right/itemporal_E_data_2000 programs/fig1_right/itemporal_program_E  facts/fig1_right/itemporal_E_data_2000.txt
 ```
 
 --------------------------------------------------------------------------------
 
-##### 3.3 Experiment 3 (Figure 3 in Our Paper)
-**An Example**. You can change the dataset and the program (see datasets/fig3 and programs/fig3). 
+##### 3.3 Experiment 3 (Figure 2 in Our Paper)
+**An Example**. You can change the dataset and the program (see datasets/fig2 and programs/fig2). 
 
 ```shell
- python  python run_1.py --datapath datasets/fig3/itemporal_E_data_1000000 --rulepath programs/fig3/itemporal_program_E
+ python  python run_1.py --datapath datasets/fig2/itemporal_E_data_1000000 --rulepath programs/fig2/itemporal_program_E
 ```
 
 --------------------------------------------------------------------------------
 
-##### 3.4 Experiment 4 (Figure 4 in Our Paper)
+##### 3.4 Experiment 4 (Figure 3 in Our Paper)
 This is the experiment for the scalability test for materailisation requiring large datasets.
 You need to prepare these datasets according to the instruction mentioned in the **Data Generator** part.
 
 
 ```shell
- python run_1.py --datapath datasets/fig4/** --rulepath programs/fig4/***
+ python run_1.py --datapath datasets/fig3/** --rulepath programs/fig3/***
 ```
 
 --------------------------------------------------------------------------------
 
-##### 3.5 Experiment 5 (Figure 5 in Our Paper)
-**An Example**. You can change the dataset and the program (see datasets/fig5 and programs/fig5). 
+##### 3.5 Experiment 5 (Figure 4 in Our Paper)
+**An Example**. You can change the dataset and the program (see datasets/fig4 and programs/fig4). 
 
 ```shell
- python run_1.py --datapath datasets/fig5/lubm_100000 --rulepath programs/fig5/lubm_p1.txt
+ python run_1.py --datapath datasets/fig4/lubm_100000 --rulepath programs/fig4/lubm_p1.txt
 ```
 
 The related codes for the query rewriting method are put in **Query_Rewriting** folder.
