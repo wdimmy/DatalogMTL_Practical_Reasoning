@@ -1,16 +1,16 @@
 #  MeTeoR: a Metric Temporal Reasoner
 
-This repository contains code, datasets and other related resources of our paper titled "MeTeoR: a Metric Temporal Reasoner" (Under Review).
+This repository contains code, datasets and other related resources in support of our paper "MeTeoR: a Metric Temporal Reasoner", which is currently under review at TPLP.
 
 <span id='overview'/>
 
 ### Overview:
 * <a href='#data'>1. Programs and Datasets </a>
-* <a href='#generator'>2. Data Generator </a>
-     * <a href="#lubm">LUBM Benchamrk</a>
-     * <a href="#itemporal">iTemporal Benchamark</a>
+* <a href='#generator'>2. Data Generation </a>
+     * <a href="#lubm">LUBM Benchmark</a>
+     * <a href="#itemporal">iTemporal Benchmark</a>
      * <a href="#weather">Weather Benchmark</a>
-* <a href='#experiments'>3. Run experiments </a>
+* <a href='#experiments'>3. Repeating our Experiments </a>
 * <a href='#meteor'>4. Installation and Examples for MeTeoR</a>
 
 
@@ -20,23 +20,22 @@ This repository contains code, datasets and other related resources of our paper
 <span id="data"/>
 
 #### 1. Programs and Datasets </a>
-Apart from the datasets of Figure 4 (due to the size limitation in the github), 
-we put in the **programs** and **datasets** folders all datasets and programs grouped 
-by fig1_left, fig1_right, fig2, fig3, fig4, which correspond to figure1(left), figure1(right), figure2, figure3, figure4
-in our paper. Users cna easily find the corresponding datasets and programs used in
-our experiments according to the folder and file name. For example, 10 related datasets and 10 related  
-programs for the experimental results of figure 1(left) in our paper are 
-put in **datasets/fig1_left** and **datasets/fig1_right**. 
+We put in the **programs** and **datasets** folders all the programs and datasets used in our evaluation apart from the datasets in Figure 4, which 
+exceed the size limit of GitHub folders. Subfolders  
+fig1_left, fig1_right, fig2, fig3, and fig4 correspond to figure1(left), figure1(right), figure2, figure3, and figure4 in our paper, respectively.
+As such, users can easily locate the datasets and programs used in
+our experiments according to the folder and file names. For example, the 10 related datasets and 10 related  
+programs for the experimental results presented in figure 1(left) can be found in **datasets/fig1_left** and **programs/fig1_left**. 
 
-For large datasets excluded in the github repo, we encourage interested users to generate 
+For large datasets excluded in this repo, we encourage interested users to generate 
 these datasets themselves according to the generation methods provided in the subsequent section. 
 
 <span id="generator"/>
 
-#### 2. Data Generator </a>
+#### 2. Data Generation </a>
 
-The above-mentioned datasets were all synthetic datasets, so we also describe the process of automatic generation in the following
-two parts in case some users want to generate some new synthetic datasets by themselves. 
+In this section we describe how the benchmark data was generated. We provide the relevant 
+generators where possible in case users would like to generate new synthetic datasets by themselves. 
 
 
 <span id="lubm"/>
@@ -50,15 +49,15 @@ two parts in case some users want to generate some new synthetic datasets by the
 You can download the data generator (UBA) from **SWAT Projects - Lehigh University Benchmark (LUBM)** [website](http://swat.cse.lehigh.edu/projects/lubm/). In particular,
 we used [UBA1.7](http://swat.cse.lehigh.edu/projects/lubm/uba1.7.zip).
 
-After downloading the  UBA1.7 package, you need to add package's path to CLASSPATH. For examole,
+After downloading the UBA1.7 package, you need to add the package's path to CLASSPATH. For example,
 
 ```shell
-export CLASSPATH="$CLASSPATH:your package path"
+export CLASSPATH="$CLASSPATH:path-to-your-package"
 ```
 
 <span id="datalog"/>
 
-###### 2.1.2 Generate the owl files
+###### 2.1.2 Generate the OWL files
 ```
 ==================
 USAGES
@@ -81,20 +80,20 @@ options:
 ```
 
 We found some naming and storage issues when using the above command provided 
-by the official documentation. To provide a more user-friendly way, we 
-wrote a script which can be directly used to generate required owl files
+by the official documentation. To make data generation more user-friendly, we 
+wrote a script which can be directly used to generate the required OWL files
 by passing some simple arguments. An example is shown as follows,
 
 ```python
 from meteor_reasoner.datagenerator import generate_owl
 
-univ_nume = 1 # input the number of universities you want to generate
-dir_name = "./data" # input the directory path used for the generated owl files.
+univ_nume = 1 # the number of universities you want to generate
+dir_name = "./data" # the directory path used for the generated OWL files.
 
 generate_owl.generate(univ_nume, dir_name)
 
 ```
-In  **./data**, you should obtain a serial of owl files like below,
+In  **./data**, you should obtain OWL files as below,
 ```
 University0_0.owl 
 University0_12.owl  
@@ -103,18 +102,18 @@ University0_4.owl
 .....
 ```
 
-Then, we need to convert the owl files to datalog-like facts. We also prepare
-a script that can be directly used to do the conversion. 
+Then, the OWL files need to be converted into unary and binary facts. We also prepared
+a script that can be directly used to perform the conversion. 
 ```python
 from meteor_reasoner.datagenerator import generate_datalog
 
-owl_path = "owl_data" # input the dir_path where owl files locate
-out_dir = "./output" # input the path for the converted datalog triplets
+owl_path = "owl_data" # the dir_path where the OWL files are located
+out_dir = "./output" # the path for the converted facts
 
 generate_datalog.extract_triplet(owl_path, out_dir)
 ```
-In **./output**, you should see a **./output/owl_data**  containing data
-in the form of
+In **./output**, you should see a **./output/owl_data** folder containing data
+of the following form 
 ```
 UndergraduateStudent(ID0)
 undergraduateDegreeFrom(ID1,ID2)
@@ -124,8 +123,8 @@ UndergraduateStudent(ID7)
 name(ID8,ID9)
 ......
 ```
-and **./output/statistics.txt**  containing the statistics information
-about the converted datalog-like data in the form of
+and **./output/statistics.txt** contains the statistics information
+about the converted facts, for example, 
 ```
 worksFor:540
 ResearchGroup:224
@@ -141,12 +140,11 @@ The number of triplets:8604
 
 ###### 2.1.3 Add punctual intervals
 
-Up to now, we only construct the atemporal data, so the final step will be adding temporal information
-(intervals) to these atemporal data. In the stream reasoning scenario, we consider punctual intervals, namely,
-the leftendpint equals to the right endpoint (e.g., A@[1,1]). To be more specific, assuming that we have a datalog-like 
-dataset in **datalog/datalog_data.txt**,
-if we want to create a dataset containing 10000 facts and each facts has at most 2 intervals, each of 
-time points are randomly chosen from a range [0, 300], we can run he following command (remember to add **--min_val=0, --max_val=300, --punctual**). 
+Up to now, we have only constructed the atemporal data, so the final step will be adding temporal information
+(intervals) to these atemporal data. In the stream reasoning scenario, we consider punctual intervals, i.e.,
+the left endpint equals to the right endpoint (e.g., A@[1,1]). To be more specific, assuming that we have some facts in **datalog/datalog_data.txt**,
+and we want to create a dataset containing 10000 temporal facts with each atemporal fact corresponding to at most 2 temporal facts with punctual intervals, and each of 
+the time points is randomly chosen from the range [0, 300], we can run the following command (remember to add **--min_val=0, --max_val=300, --punctual**). 
 ```shell
 
 python add_intervals.py --datalog_file_path datalog/datalog_data.txt --factnum 10000 --intervalnum 2 --min_val 0 --max_val 300 --punctual 
@@ -154,7 +152,7 @@ python add_intervals.py --datalog_file_path datalog/datalog_data.txt --factnum 1
 ```
 
 In the **datalog/10000.txt**, there should be 10000 facts, each of which in the form P(a,b)@\varrho, and 
-a sample of facts are shown as follows,
+some example facts are shown as follows,
 ```
 undergraduateDegreeFrom(ID1,ID2)@[7,7]
 takesCourse(ID34,ID4)@[46,46]
@@ -167,27 +165,27 @@ name(ID18,ID9)@[22,22]
 
 ##### iTemporal Benchmark
 
-For the dataset generation based on the iItemporal platform, we refer readers to the 
+For the dataset generation based on the iTemporal platform, we refer readers to the 
 [official github repository](https://github.com/kglab-tuwien/iTemporal), where a nice web-based  
 interface and an easy-to-configure file have been provided for the data generation. A more technical
-details about iTemporal can also be found in their [ICDE 2022](https://ieeexplore.ieee.org/document/9835220). 
+details about iTemporal can also be found in their [ICDE 2022](https://ieeexplore.ieee.org/document/9835220) paper. 
 
 
 <span id="weather"/>
 
 ##### Weather Benchmark
 
-The Weather Benchmark is based on a freely available dataset with meteorological observations. The original datasets 
-could be downloaded from [here](https://www.engr.scu.edu/~emaurer/gridded_obs/index_gridded_obs.html) and we also upload our processed data to the google drive [here](https://drive.google.com/file/d/1wS33E0T-g44FRVrf6QYfbPFquiAA8fFt/view?usp=share_link).
+The Weather Benchmark is based on a freely available dataset with meteorological observations. The original datasets  
+could be downloaded from [here](https://www.engr.scu.edu/~emaurer/gridded_obs/index_gridded_obs.html). We have also uploaded our processed data to Google Drive [here](https://drive.google.com/file/d/1wS33E0T-g44FRVrf6QYfbPFquiAA8fFt/view?usp=share_link).
 
 
 <span id="experiments"/>
 
-#### 3. Run experiments
+#### 3. Repeating our Experiments
 
 ##### 3.1 Experiment 1 (Figure 1 (left) in Our Paper)
-**An Example**, in which the dataset path is: **datasets/fig1_left/itemporal_data_1 programs/fig1_left/itemporal_program_1**,
-the program path is: **programs/fig1_left/itemporal_program_1** and the fact path is: **facts/fig1_left/itemporal_data_1.txt**.
+**An Example Command is as Follows**, in which the dataset path is: **datasets/fig1_left/itemporal_data_1**,
+the program path is: **programs/fig1_left/itemporal_program_1**, and the fact path is: **facts/fig1_left/itemporal_data_1.txt**.
  
 ```shell
   bash run.sh datasets/fig1_left/itemporal_data_1 programs/fig1_left/itemporal_program_1   facts/fig1_left/itemporal_data_1.txt
@@ -196,8 +194,8 @@ the program path is: **programs/fig1_left/itemporal_program_1** and the fact pat
 --------------------------------------------------------------------------------
 
 ##### 3.2 Experiment 2 (Figure 1 (right) in Our Paper)
-**An Example**, in which the dataset path is: **datasets/fig1_right/itemporal_data_20000 programs/fig1_right/itemporal_program_E**,
-the program path is: **programs/fig1_right/itemporal_program_E** and the fact path is: **facts/fig1_right/itemporal_E_data_2000.txt**.
+**An Example Command is as Follows**, in which the dataset path is: **datasets/fig1_right/itemporal_data_20000**,
+the program path is: **programs/fig1_right/itemporal_program_E**, and the fact path is: **facts/fig1_right/itemporal_E_data_2000.txt**.
  
  
 ```shell
@@ -207,7 +205,7 @@ the program path is: **programs/fig1_right/itemporal_program_E** and the fact pa
 --------------------------------------------------------------------------------
 
 ##### 3.3 Experiment 3 (Figure 2 in Our Paper)
-**An Example**. You can change the dataset and the program (see datasets/fig2 and programs/fig2). 
+**An Example Command is as Follows**. You can change the dataset and the program paths (see datasets/fig2 and programs/fig2). 
 
 ```shell
  python  python run_1.py --datapath datasets/fig2/itemporal_E_data_1000000 --rulepath programs/fig2/itemporal_program_E
@@ -216,8 +214,8 @@ the program path is: **programs/fig1_right/itemporal_program_E** and the fact pa
 --------------------------------------------------------------------------------
 
 ##### 3.4 Experiment 4 (Figure 3 in Our Paper)
-This is the experiment for the scalability test for materailisation requiring large datasets.
-You need to prepare these datasets according to the instruction mentioned in the **Data Generator** part.
+This is the scalability test for the materailisation and it requires large datasets.
+You need to prepare the datasets following the instructions provided in the **Data Generation** part.
 
 
 ```shell
@@ -227,13 +225,13 @@ You need to prepare these datasets according to the instruction mentioned in the
 --------------------------------------------------------------------------------
 
 ##### 3.5 Experiment 5 (Figure 4 in Our Paper)
-**An Example**. You can change the dataset and the program (see datasets/fig4 and programs/fig4). 
+**An Example Command is as Follows**. You can change the dataset and the program paths (see datasets/fig4 and programs/fig4). 
 
 ```shell
  python run_1.py --datapath datasets/fig4/lubm_100000 --rulepath programs/fig4/lubm_p1.txt
 ```
 
-The related codes for the query rewriting method are put in **Query_Rewriting** folder.
+The code related to the query rewriting method can be found in the **Query_Rewriting** folder.
 
 --------------------------------------------------------------------------------
 
@@ -280,9 +278,8 @@ We define the following notations to represent the six MTL operators:
 * Until[1,2]
 
 We use ":-" to separate the head and the body atoms and "," as the separator between different 
-metric atoms in the body. Besides, constants are represented with the combination of different alphabets in which the
-first letter should be **lowercase**; on the contrary, variables are represented with the combination of different alphabets in which the
-first letter should be **uppercase**.
+metric atoms in the body. In addition, the first letter of a constant should be **lowercase**; in contrast, the 
+first letter of a variable should be **uppercase**.
 
 
 As an example, a rule could be written as follows,
@@ -292,12 +289,11 @@ A(X):- B(a), SOMETIME[-1,0]C(X), Diamondminus[1,2]D(X)
 ##### 4.2 Dataset Syntax
 We define the following format to represent a fact:
 
-**F(c_1, ..., c_n)@<t1, t2>**, where **<** could be ( or [, and **>** could be ) or ], t1 and t2 are two rational numbers with t1<=t2
-and c_i with i in [1, ..., n] is a string starting with a  **lowercase** letter. 
+**F(c_1, ..., c_n)@<t1, t2>**, where **<** could be ( or [, and **>** could be ) or ]; t1 and t2 are two rational numbers with t1<=t2
+and c_i with i in [1, ..., n] is a string starting with a **lowercase** letter. 
 
 ##### 4.3 An Example
 ###### Data parser
-The format of the datasets and the program could be found in the example foler.
 ```python
 from meteor_reasoner.utils.loader import load_dataset, load_program
 
@@ -323,8 +319,8 @@ flag = materialize(D, Program, mode="naive", K=10) # mode could be "naive" or "s
 print_dataset(D)
 ````
 
-The above code snippets shows at most 10 rounds of rule applicatioins and the flag represents whether 
-it reaches to the fixed point. The derived facts will be kept in D. 
+The above code snippet shows how to run at most 10 rounds of rule applicatioins, and the flag represents whether 
+the materialisation reaches the fixed point. The derived facts will be kept in D. 
 
 ###### Automata
 ```python
@@ -342,3 +338,4 @@ print("Consistency:", flag)
 
 #### Contact
 For any questions, please drop an email to Dingmin Wang (wangdimmy@gmail.com). 
+
