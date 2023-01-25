@@ -51,6 +51,7 @@ if __name__ == "__main__":
     parser.add_argument("--fact",
                         default="g1367@[23,26]",
                         type=str, help="Input the fact you wanna check the entailment")
+    parser.add_argument("--automata_only", default=False, action="store_true")
 
     args = parser.parse_args()
     with open(args.rulepath) as file:
