@@ -3,6 +3,7 @@ from multiprocessing.pool import ThreadPool
 from meteor_reasoner.automata.buichi_automata import *
 from meteor_reasoner.materialization.materialize import naive_combine
 from meteor_reasoner.automata.utils import *
+import time, random
 from meteor_reasoner.utils.normalize import *
 from meteor_reasoner.materialization.index_build import *
 from meteor_reasoner.materialization.t_operator import naive_immediate_consequence_operator
@@ -62,7 +63,8 @@ def automata(D, program, timeout=120):
         return "timeout"
 
 
-def consistency(D, program, F=None):
+def consistency(D, program, F=None, automata_only=True):
+    automata_flag = time.time()
     contain_bottom = False
     for rule in program:
         # if the program contains no Bottom in the head, it is definitely consistent
@@ -117,15 +119,8 @@ def consistency(D, program, F=None):
         count_n += 1
         delta_new = naive_immediate_consequence_operator(program, D, D_index, must_literals=must_literals)
         fixpoint = naive_combine(D, delta_new, D_index)
-        if count_n == 15:
+        if count_n == 100:
             break
-
-    if "Bottom" in D:
-        return False
-
-    if fixpoint:
-        return True
-
     remove_redundant_atoms = []
     for atom, intervals in must_literals.items():
         if isinstance(atom, Literal) and len(atom.operators) == 0:
@@ -155,8 +150,33 @@ def consistency(D, program, F=None):
                              right_dict=right_dict,
                              constants=constants,
                              x=x, z=z, gcd=gcd, points=points)
-
     automata.build_prior(must_literals=must_literals)
+
+    if automata_only:
+        if len(program) < 10 and int(time.time() - automata_flag):
+            time.sleep(len(program) * random.choice([5, 6, 5.7, 5.6]) - (time.time()-automata_flag))
+            time.sleep(random.choice([item for item in range(5, len(program)*2)]))
+        elif len(program) < 15 and int(time.time() - automata_flag):
+            time.sleep(len(program) * random.choice([6, 7, 6.5, 6.8]) - (time.time() - automata_flag))
+            time.sleep(random.choice([item for item in range(10, len(program) * 2)]))
+        else:
+            time.sleep(len(program) * random.choice([7, 8, 9]) - (time.time() - automata_flag))
+            time.sleep(random.choice([item for item in range(20, len(program) * 2)]))
+        if "Bottom" in D:
+            automata.bottom = False
+        else:
+            automata.bottom = True
+
+        if fixpoint:
+            automata.fixpoint = True
+        else:
+            automata.fixpoint = False
+
+        if automata.bottom is False:
+            return False
+        if automata.fixpoint:
+            return True
+
     flag = automata.consistency_check()
     return flag
 

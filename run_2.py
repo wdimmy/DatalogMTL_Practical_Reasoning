@@ -43,13 +43,13 @@ def call_automata(D, program, F):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--datapath", default="./datasets/fig1/itemporal_data_1", type=str, help="Input the dataset path")
-    parser.add_argument("--rulepath", default="./programs/fig1/itemporal_program_1",  type=str, help="Input the program path")
+    parser.add_argument("--datapath", default="./datasets/fig1_left/itemporal_data_5", type=str, help="Input the dataset path")
+    parser.add_argument("--rulepath", default="./programs/fig1_left/itemporal_program_5",  type=str, help="Input the program path")
     parser.add_argument("--factpath",
                         default="",
                         type=str, help="Input the fact path you wanna check the entailment")
     parser.add_argument("--fact",
-                        default="",
+                        default="g1367@[23,26]",
                         type=str, help="Input the fact you wanna check the entailment")
 
     args = parser.parse_args()
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         F = Atom(fact[0], fact[1], fact[2])
         flag, name = call_automata(D, program, F)
         if flag:
-            print("[Automata: True] The input dataset and program does not entail the input fact!")
+            print("[Automata: True] The input dataset and program do not entail the input fact!")
         else:
             print("[Automata: False] The input dataset and program entail the input fact!")
 
