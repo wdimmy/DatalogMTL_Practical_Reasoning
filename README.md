@@ -211,7 +211,7 @@ the program path is: **programs/fig1_right/itemporal_program_E**, and the fact p
  
  
 ```shell
-  bash run.sh datasets/fig1_right/itemporal_E_data_2000 programs/fig1_right/itemporal_program_E  facts/fig1_right/itemporal_E_data_2000.txt
+  bash run.sh datasets/fig1_right/itemporal_E_data_2000 programs/fig1_right/itemporal_program_E  facts/fig1_right/itemporal_E_data_2000.txt 
 ```
 
 --------------------------------------------------------------------------------
