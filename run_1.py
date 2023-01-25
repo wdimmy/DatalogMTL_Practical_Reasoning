@@ -5,9 +5,10 @@ import argparse
 from meteor_reasoner.materialization.coalesce import coalescing_d
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--datapath", required=True, type=str, help="Input the dataset path")
-parser.add_argument("--rulepath", required=True, type=str, help="Input the program path")
-parser.add_argument("--steps", default=100, type=int, help="Input the number of rule applications")
+parser.add_argument("--datapath", required=False, default="datasets/fig1_right/itemporal_E_data_1000", type=str, help="Input the dataset path")
+parser.add_argument("--rulepath", required=False, default="programs/fig3/itemporal_program_E",  type=str, help="Input the program path")
+parser.add_argument("--steps", default=5, type=int, help="Input the number of rule applications")
+parser.add_argument("--mode",  default="naive", type=str, help="Input materialisation method: naive, seminaive or opt")
 args = parser.parse_args()
 
 
@@ -41,6 +42,6 @@ if __name__ == "__main__":
     print("================ End of the loading ============\n")
     print("================ Begin to do materialization ============")
 
-    materialize(D, program, D_index, K=args.steps)
+    materialize(D, program, args.mode, K=args.steps)
 
     print("================ End ============\n")

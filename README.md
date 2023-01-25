@@ -220,7 +220,7 @@ the program path is: **programs/fig1_right/itemporal_program_E**, and the fact p
 **An Example Command is as Follows**. You can change the dataset and the program paths (see datasets/fig2 and programs/fig2). 
 
 ```shell
-   python run_1.py --datapath datasets/fig2/itemporal_E_data_1000000 --rulepath programs/fig2/itemporal_program_E
+   python run_1.py --datapath datasets/fig2/itemporal_E_data_100000 --rulepath programs/fig2/itemporal_program_E
 ```
 
 --------------------------------------------------------------------------------
