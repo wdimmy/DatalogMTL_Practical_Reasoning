@@ -217,7 +217,8 @@ the program path is: **programs/fig1_right/itemporal_program_E**, and the fact p
 --------------------------------------------------------------------------------
 
 ##### 4.3 Experiment 3 (Figure 2 in Our Paper)
-**An Example Command is as Follows**. You can change the dataset and the program paths (see datasets/fig2 and programs/fig2). 
+**An Example Command is as Follows**. You can change the dataset and the program paths (see datasets/fig2 and programs/fig2). By default, we use the naive materialisation and you
+can change the mode by passing the argument **--mode**, in which we provide some kinds of choices: **naive**, **seminaive** and **opt**. 
 
 ```shell
    python run_1.py --datapath datasets/fig2/itemporal_E_data_100000 --rulepath programs/fig2/itemporal_program_E
