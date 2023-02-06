@@ -251,7 +251,7 @@ The code related to the query rewriting method can be found in the **Query_Rewri
 
 <span id="meteor"/>
 
-#### 5 Installation and Examples for MeTeoR 
+#### 5. Installation and Examples for MeTeoR 
 
 ##### 5.1 Installation
 You can install MeTeoR using Python's package manager `pip`.
