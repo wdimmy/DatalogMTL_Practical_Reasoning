@@ -6,7 +6,7 @@ This repository contains code, datasets and other related resources in support o
 
 ### Overview:
 * <a href='#data'>1. Programs and Datasets </a>
-* <a href='#generator'>2. Data Generation </a>
+* <a href='#generator'>2. Program Generation </a>
 * <a href='#generator'>3. Data Generation </a>
      * <a href="#lubm">LUBM Benchmark</a>
      * <a href="#itemporal">iTemporal Benchmark</a>
@@ -251,7 +251,7 @@ The code related to the query rewriting method can be found in the **Query_Rewri
 
 <span id="meteor"/>
 
-#### 45 Installation and Examples for MeTeoR 
+#### 5 Installation and Examples for MeTeoR 
 
 ##### 5.1 Installation
 You can install MeTeoR using Python's package manager `pip`.
