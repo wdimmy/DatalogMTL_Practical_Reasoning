@@ -281,7 +281,7 @@ pip
 ```
 
 
-##### 4.2 Program Syntax
+##### 5.2 Program Syntax
 We define the following notations to represent the six MTL operators:
 * Diamondminus[1,2] or SOMETIME[-2,-1]
 * Boxminus[1,2] or ALWAYS[-2,-1]
@@ -299,13 +299,13 @@ As an example, a rule could be written as follows,
 ```
 A(X):- B(a), SOMETIME[-1,0]C(X), Diamondminus[1,2]D(X)
 ```
-##### 5.2 Dataset Syntax
+##### 5.3 Dataset Syntax
 We define the following format to represent a fact:
 
 **F(c_1, ..., c_n)@<t1, t2>**, where **<** could be ( or [, and **>** could be ) or ]; t1 and t2 are two rational numbers with t1<=t2
 and c_i with i in [1, ..., n] is a string starting with a **lowercase** letter. 
 
-##### 5.3 An Example
+##### 5.4 An Example
 ###### Data parser
 ```python
 from meteor_reasoner.utils.loader import load_dataset, load_program
