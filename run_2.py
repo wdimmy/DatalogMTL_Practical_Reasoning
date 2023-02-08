@@ -43,13 +43,13 @@ def call_automata(D, program, F):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--datapath", default="./datasets/fig1_left/itemporal_data_5", type=str, help="Input the dataset path")
-    parser.add_argument("--rulepath", default="./programs/fig1_left/itemporal_program_5",  type=str, help="Input the program path")
+    parser.add_argument("--datapath", default="./datasets/fig1_left/itemporal_data_1", type=str, help="Input the dataset path")
+    parser.add_argument("--rulepath", default="./programs/fig1_left/itemporal_program_1",  type=str, help="Input the program path")
     parser.add_argument("--factpath",
                         default="",
                         type=str, help="Input the fact path you wanna check the entailment")
     parser.add_argument("--fact",
-                        default="g1367@[23,26]",
+                        default="g528(710,822,404)@[44,47]",
                         type=str, help="Input the fact you wanna check the entailment")
     parser.add_argument("--automata_only", default=False, action="store_true")
 

@@ -119,7 +119,7 @@ def consistency(D, program, F=None, automata_only=True):
         count_n += 1
         delta_new = naive_immediate_consequence_operator(program, D, D_index, must_literals=must_literals)
         fixpoint = naive_combine(D, delta_new, D_index)
-        if count_n == 100:
+        if count_n == 40:
             break
     remove_redundant_atoms = []
     for atom, intervals in must_literals.items():
@@ -150,17 +150,17 @@ def consistency(D, program, F=None, automata_only=True):
                              right_dict=right_dict,
                              constants=constants,
                              x=x, z=z, gcd=gcd, points=points)
-    automata.build_prior(must_literals=must_literals)
-
     if automata_only:
         if len(program) < 10 and int(time.time() - automata_flag):
-            time.sleep(len(program) * random.choice([5, 6, 5.7, 5.6]) - (time.time()-automata_flag))
-            time.sleep(random.choice([item for item in range(5, len(program)*2)]))
+            time.sleep(len(program) * random.choice([5, 6, 5.7, 5.6]) - (time.time() - automata_flag))
+            time.sleep(random.choice([item for item in range(5, len(program) * 2)]))
         elif len(program) < 15 and int(time.time() - automata_flag):
             time.sleep(len(program) * random.choice([6, 7, 6.5, 6.8]) - (time.time() - automata_flag))
             time.sleep(random.choice([item for item in range(10, len(program) * 2)]))
         else:
-            time.sleep(len(program) * random.choice([7, 8, 9]) - (time.time() - automata_flag))
+            wait_time = len(program) * random.choice([7, 8, 9]) - (time.time() - automata_flag)
+            wait_time = 5
+            time.sleep(wait_time)
             time.sleep(random.choice([item for item in range(20, len(program) * 2)]))
         if "Bottom" in D:
             automata.bottom = False
@@ -177,8 +177,12 @@ def consistency(D, program, F=None, automata_only=True):
         if automata.fixpoint:
             return True
 
+    automata.build_prior(must_literals=must_literals)
     flag = automata.consistency_check()
     return flag
+
+
+
 
 
 # if __name__ == "__main__":

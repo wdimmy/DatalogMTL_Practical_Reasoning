@@ -200,8 +200,7 @@ could be downloaded from [here](https://www.engr.scu.edu/~emaurer/gridded_obs/in
 the program path is: **programs/fig1_left/itemporal_program_1**, and the fact path is: **facts/fig1_left/itemporal_data_1.txt**.
  
 ```shell
-  bash run.sh datasets/fig1_left/itemporal_data_1 programs/fig1_left/itemporal_program_1   facts/fig1_left/itemporal_data_1.txt
-
+   bash run.sh datasets/fig1_left/itemporal_data_1 programs/fig1_left/itemporal_program_1   facts/fig1_left/itemporal_data_1.txt --automata_only
 ```
 --------------------------------------------------------------------------------
 
