@@ -42,10 +42,10 @@ class Literal:
         self.operators = operators
 
     def get_predicate(self):
-        return self.atom.predicate
+        return self.atom.get_predicate()
 
     def get_entity(self):
-        return self.atom.entity
+        return self.atom.get_entity()
 
     def get_op_name(self): # always return the name of the first operator
         if len(self.operators) != 0:

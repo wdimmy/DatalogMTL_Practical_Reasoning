@@ -23,10 +23,10 @@ class Atom:
         return self.predicate
 
     def get_entity(self):
-        return self.entity
+        return tuple(self.entity)
 
     def set_entity(self, entity):
-        self.entity = entity
+        self.entity = tuple(entity)
 
     def __str__(self):
         if self.interval:
